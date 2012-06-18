@@ -14,6 +14,7 @@ then
     if [ -a "$ve_data_path$ve_target_id/etc/reset-ve" ] 
     then
         #the user wants the VE resetted
+   	vzctl exec $ve_target_id "rm /etc/reset-ve"
         vzctl stop $ve_target_id
         vzctl destroy $ve_target_id
         vzctl create $ve_target_id $vzctl_create_params
