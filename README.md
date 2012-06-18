@@ -17,6 +17,7 @@ To set it up, you need to edit the first couple of lines of the script, as appro
     ve_data_path="/data/vz/private/"
     vzctl_create_params="--ostemplate ubuntu-10.04-minimal_10.04_amd64 --config web --ipadd <ip> --hostname <hostname>"
     ve_root_pw="<password>"
+    vzctl="/usr/sbin/vzctl"
 
 Please take care and **change** the root password to be used for your VE!
 
