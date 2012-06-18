@@ -9,6 +9,8 @@ by calling
 
 **Setup**
 
+Put the script in a sensible location on your root node. We suggest /var/catfind/.
+
 To set it up, you need to edit the first couple of lines of the script, as appropriate for your setup:
 
     #configuration by user
