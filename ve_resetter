@@ -6,6 +6,7 @@ ve_conf_path="/etc/vz/conf/"
 ve_data_path="/data/vz/private/"
 vzctl_create_params="--ostemplate ubuntu-10.04-minimal_10.04_amd64 --config web --ipadd <ip> --hostname <hostname>"
 ve_root_pw="<password>"
+vzctl="/usr/sbin/vzctl"
 
 #script
 if [ -a "$ve_conf_path$ve_target_id.conf" ]
@@ -14,18 +15,18 @@ then
     if [ -a "$ve_data_path$ve_target_id/etc/reset-ve" ] 
     then
         #the user wants the VE resetted
-   	/usr/sbin/vzctl exec $ve_target_id "rm /etc/reset-ve"
-        /usr/sbin/vzctl stop $ve_target_id
-        /usr/sbin/vzctl destroy $ve_target_id
-        /usr/sbin/vzctl create $ve_target_id $vzctl_create_params
-        /usr/sbin/vzctl start $ve_target_id
-        /usr/sbin/vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
+        $vzctl exec $ve_target_id "rm /etc/reset-ve"
+        $vzctl stop $ve_target_id
+        $vzctl destroy $ve_target_id
+        $vzctl create $ve_target_id $vzctl_create_params
+        $vzctl start $ve_target_id
+        $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
 
     fi 
     #if the file does not exist, do nothing
 else
     #the VE config does not exist, create the VE for the first time and start it.
-    /usr/sbin/vzctl create $ve_target_id $vzctl_create_params
-    /usr/sbin/vzctl start $ve_target_id
-    /usr/sbin/vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
+    $vzctl create $ve_target_id $vzctl_create_params
+    $vzctl start $ve_target_id
+    $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
 fi
