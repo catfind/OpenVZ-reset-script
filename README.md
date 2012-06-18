@@ -21,3 +21,11 @@ To set it up, you need to edit the first couple of lines of the script, as appro
 Please take care and **change** the root password to be used for your VE!
 
 Then, create a new cronjob, calling the script as root user on your root node.
+
+    crontab -e
+
+For checking every 2 minutes, and logging the resets and possible errors, your crontab entry could look like this:
+
+    # m h  dom mon dow   command
+    */2     *       *       *       *       /var/catfind/ve_resetter > /var/catfind/ve_resetter.log 2> /var/catfind/ve_resetter_error.log
+
