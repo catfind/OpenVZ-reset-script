@@ -8,6 +8,16 @@ vzctl_create_params="--ostemplate ubuntu-10.04-minimal_10.04_amd64 --config web 
 ve_root_pw="<password>"
 vzctl="/usr/sbin/vzctl"
 
+
+
+create_ve () {
+    $vzctl create $ve_target_id $vzctl_create_params
+    $vzctl start $ve_target_id
+    $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
+    echo "alias vzreset=\"touch /etc/reset-ve\"" >> "$ve_data_path$ve_target_id/root/.bash_aliases"
+}
+
+
 #script
 if [ -a "$ve_conf_path$ve_target_id.conf" ]
 then
@@ -18,16 +28,10 @@ then
         $vzctl exec $ve_target_id "rm /etc/reset-ve"
         $vzctl stop $ve_target_id
         $vzctl destroy $ve_target_id
-        $vzctl create $ve_target_id $vzctl_create_params
-        $vzctl start $ve_target_id
-        $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
-        echo "alias vzreset=\"touch /etc/reset-ve\"" >> "$ve_data_path$ve_target_id/root/.bash_aliases"
+        create_ve
     fi 
     #if the file does not exist, do nothing
 else
     #the VE config does not exist, create the VE for the first time and start it.
-    $vzctl create $ve_target_id $vzctl_create_params
-    $vzctl start $ve_target_id
-    $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
-    echo "alias vzreset=\"touch /etc/reset-ve\"" >> "$ve_data_path$ve_target_id/root/.bash_aliases"
+    create_ve
 fi
