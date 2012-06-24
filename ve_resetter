@@ -21,7 +21,7 @@ then
         $vzctl create $ve_target_id $vzctl_create_params
         $vzctl start $ve_target_id
         $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
-
+        echo "alias vzreset=\"touch /etc/reset-ve\"" >> "$ve_data_path$ve_target_id/root/.bash_aliases"
     fi 
     #if the file does not exist, do nothing
 else
@@ -29,4 +29,5 @@ else
     $vzctl create $ve_target_id $vzctl_create_params
     $vzctl start $ve_target_id
     $vzctl exec $ve_target_id "echo "root:$ve_root_pw" | chpasswd"
+    echo "alias vzreset=\"touch /etc/reset-ve\"" >> "$ve_data_path$ve_target_id/root/.bash_aliases"
 fi
